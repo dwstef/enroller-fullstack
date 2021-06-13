@@ -60,6 +60,16 @@
                 localStorage.setItem('username', username);
                 localStorage.setItem('token', token);
             },
+            register(user){
+                 this.errorMessage = '';
+                 this.$http.post('participants', user)
+                     .then(response => {
+                         this.registering = false;
+                     })
+                     .catch(response => {
+                         this.errorMessage = 'Nazwa użytkownika jest zajęta';
+                     });
+            },
             logout() {
                 this.authenticatedUsername = '';
                 delete Vue.http.headers.common.Authorization;
@@ -117,7 +127,12 @@
     background: indianred;
     border-color: darken(indianred, 10%);
     color: white;
-
+    }
+  .alert-warning {
+    padding: 3px;
+    text-align: center;
+    font-weight: 700;
+    background: pink;
   }
 </style>
 
