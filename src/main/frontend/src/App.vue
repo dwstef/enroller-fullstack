@@ -7,24 +7,23 @@
     <div v-if="authenticatedUsername">
       <h2>Witaj {{ authenticatedUsername }}!
         <a @click="logout()" class="float-right  button-outline button">Wyloguj</a>
-      </h2>
-      <meetings-page :username="authenticatedUsername"></meetings-page>
-    </div>
-    <div v-else>
-      <button @click="registering = false" :class="registering ? 'button-outline' : ''">Loguję się</button>
-      <button @click="registering = true" :class="!registering ? 'button-outline' : ''">Rejestruję się</button>
-      <div :class="'alert alert-' + (this.isError ? 'error' : 'success')" v-if="message">{{ message }}</div>
-      <login-form @submit="registering ? register($event) : login($event)" :button-label="loginButtonLabel"></login-form>
-    </div>
+    </h2>
+    <meetings-page :username="authenticatedUsername"></meetings-page>
   </div>
-</template>
+  <div v-else>
+    <button @click="registering = false" :class="registering ? 'button-outline' : ''">Loguję się</button>
+  <button @click="registering = true" :class="!registering ? 'button-outline' : ''">Rejestruję się</button>
+<div :class="'alert alert-' + (this.isError ? 'error' : 'success')" v-if="message">{{ message }}</div>
+<login-form @submit="registering ? register($event) : login($event)" :button-label="loginButtonLabel"></login-form>
+        </div>
+        </div>
+        </template>
 
 <script>
     import "milligram";
     import LoginForm from "./LoginForm";
     import MeetingsPage from "./meetings/MeetingsPage";
     import Vue from "vue";
-
     export default {
         components: {LoginForm, MeetingsPage},
         data() {
@@ -59,16 +58,6 @@
                 Vue.http.headers.common.Authorization = 'Bearer ' + token;
                 localStorage.setItem('username', username);
                 localStorage.setItem('token', token);
-            },
-            register(user){
-                 this.errorMessage = '';
-                 this.$http.post('participants', user)
-                     .then(response => {
-                         this.registering = false;
-                     })
-                     .catch(response => {
-                         this.errorMessage = 'Nazwa użytkownika jest zajęta';
-                     });
             },
             logout() {
                 this.authenticatedUsername = '';
@@ -109,11 +98,9 @@
     max-width: 1000px;
     margin: 0 auto;
   }
-
   .logo {
     vertical-align: middle;
   }
-
   .alert {
     padding: 10px;
     margin-bottom: 10px;
@@ -127,12 +114,5 @@
     background: indianred;
     border-color: darken(indianred, 10%);
     color: white;
-    }
-  .alert-warning {
-    padding: 3px;
-    text-align: center;
-    font-weight: 700;
-    background: pink;
   }
 </style>
-
