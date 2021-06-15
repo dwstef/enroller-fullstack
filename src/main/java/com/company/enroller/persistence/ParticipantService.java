@@ -17,7 +17,7 @@ public class ParticipantService {
     PasswordEncoder passwordEncoder;
 
     public ParticipantService() {
-        connector = DatabaseConnector.getInstance();
+            connector = DatabaseConnector.getInstance();
     }
 
     public Collection<Participant> getAll() {

@@ -1,29 +1,30 @@
 <template>
   <div id="app">
     <h1>
-      <img src="./assets/logo.svg" alt="Enroller" class="logo">
+      <img src="./assets/logo.svg" alt="Enroller" class="logo"></img>
       System do zapisów na zajęcia
     </h1>
     <div v-if="authenticatedUsername">
-      <h2>Witaj {{ authenticatedUsername }}!
-        <a @click="logout()" class="float-right  button-outline button">Wyloguj</a>
+    <h2>Witaj {{ authenticatedUsername }}!
+        <a @click="logout()" class="float-right  button-outline button"> Wyloguj </a>
     </h2>
     <meetings-page :username="authenticatedUsername"></meetings-page>
   </div>
   <div v-else>
     <button @click="registering = false" :class="registering ? 'button-outline' : ''">Loguję się</button>
-  <button @click="registering = true" :class="!registering ? 'button-outline' : ''">Rejestruję się</button>
-<div :class="'alert alert-' + (this.isError ? 'error' : 'success')" v-if="message">{{ message }}</div>
-<login-form @submit="registering ? register($event) : login($event)" :button-label="loginButtonLabel"></login-form>
-        </div>
-        </div>
-        </template>
+    <button @click="registering = true" :class="!registering ? 'button-outline' : ''">Rejestruję się</button>
+    <div :class="'alert alert-' + (this.isError ? 'error' : 'success')" v-if="message"> {{ message }} </div>
+    <login-form @submit="registering ? register($event) : login($event)" :button-label="loginButtonLabel"></login-form>
+  </div>
+  </div>
+</template>
 
 <script>
     import "milligram";
     import LoginForm from "./LoginForm";
     import MeetingsPage from "./meetings/MeetingsPage";
     import Vue from "vue";
+
     export default {
         components: {LoginForm, MeetingsPage},
         data() {
@@ -34,6 +35,7 @@
                 isError: false
             };
         },
+
         methods: {
             register(user) {
                 this.clearMessage();
@@ -76,6 +78,7 @@
                 this.message = undefined;
             }
         },
+
         mounted() {
             const username = localStorage.getItem('username');
             const token = localStorage.getItem('token');
@@ -85,6 +88,7 @@
                 this.$http.get(`participants/${username}`).catch(() => this.logout());
             }
         },
+
         computed: {
             loginButtonLabel() {
                 return this.registering ? 'Zarejestruj się' : 'Zaloguj się';

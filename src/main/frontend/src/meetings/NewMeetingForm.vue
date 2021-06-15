@@ -3,9 +3,11 @@
     <form @submit.prevent="addNewMeeting()" v-if="adding">
       <h3>Dodaj nowe spotkanie</h3>
       <label>Nazwa</label>
-      <input type="text" v-model="newMeeting.name">
+      <input type="text" v-model="newMeeting.title">
       <label>Opis</label>
       <textarea v-model="newMeeting.description"></textarea>
+        <label>Data</label>
+        <input type="date" v-model="newMeeting.date"></input>
       <button>Dodaj</button>
       <span class="error" v-if="error">Spotkanie musi mieć nazwę!</span>
     </form>
@@ -25,7 +27,7 @@
         methods: {
             addNewMeeting() {
                 this.error = false;
-                if (this.newMeeting.name) {
+                if (this.newMeeting.title) {
                     this.$emit('added', this.newMeeting);
                     this.newMeeting = {participants: []};
                     this.adding = false;
