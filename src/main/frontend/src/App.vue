@@ -76,7 +76,8 @@
             },
             clearMessage() {
                 this.message = undefined;
-            }
+            },
+
         },
 
         mounted() {

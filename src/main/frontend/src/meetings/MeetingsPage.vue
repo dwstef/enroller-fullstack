@@ -21,7 +21,6 @@
 <script>
     import NewMeetingForm from "./NewMeetingForm";
     import MeetingsList from "./MeetingsList";
-
     export default {
         components: {NewMeetingForm, MeetingsList},
         props: ['username'],
@@ -36,6 +35,7 @@
                  this.$http.post('meetings', meeting)
                      .then(response => {
                         this.meetings.push(meeting);
+                        window.location.reload(true);
                      })
                      .catch(response => {
                      });
@@ -47,10 +47,15 @@
                 meeting.participants.splice(meeting.participants.indexOf(this.username), 1);
             },
             deleteMeeting(meeting) {
-                this.meetings.splice(this.meetings.indexOf(meeting), 1);
+                this.$http.delete('meetings/'+ meeting.id)
+                     .then(response => {
+                     this.meetings.splice(this.meetings.indexOf(meeting), 1);
+
+                     })
+                     .catch(response => {
+                     });
             }
                     },
-
             mounted() {
                   this.$http.get('meetings')
                          .then(response=>{

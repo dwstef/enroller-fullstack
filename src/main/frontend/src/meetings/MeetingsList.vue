@@ -17,7 +17,7 @@
       <td>
         <ul v-if="meeting.participants">
           <li v-for="participant in meeting.participants" :key="participant">
-            {{ participant }}
+            {{ username }}
           </li>
         </ul>
       </td>
@@ -31,10 +31,10 @@
     Usuń puste spotkanie
     </button>
   </td>
-    </tr>
-    </tbody>
-  </table>
-</template>
+</tr>
+        </tbody>
+        </table>
+        </template>
 
 <script>
     export default {

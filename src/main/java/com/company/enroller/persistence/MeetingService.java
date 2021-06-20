@@ -1,6 +1,7 @@
 package com.company.enroller.persistence;
 
 import com.company.enroller.model.Meeting;
+import com.company.enroller.model.Participant;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -12,6 +13,7 @@ import java.util.Collection;
 public class MeetingService {
 
     DatabaseConnector connector;
+    Session session;
 
     public MeetingService() {
         connector = DatabaseConnector.getInstance();
@@ -33,6 +35,50 @@ public class MeetingService {
         connector.getSession().save(meeting);
         transaction.commit();
         return meeting;
+    }
+
+    public void delete(Meeting meeting) {
+        Transaction transaction = connector.getSession().beginTransaction();
+        connector.getSession().delete(meeting);
+        transaction.commit();
+    }
+
+    public void addParticipant(Long id, String login) {
+
+        Meeting meeting = this.findByID(id);
+        Participant participant = (Participant) DatabaseConnector.getInstance().getSession().get(Participant.class,
+                login);
+
+        meeting.addParticipant(participant);
+        Transaction transaction = connector.getSession().beginTransaction();
+        connector.getSession().save(meeting);
+        transaction.commit();
+
+
+//        Meeting meeting = this.findByID(id);
+//        Participant participant = (Participant) DatabaseConnector.getInstance().getSession().get(Participant.class,
+//                login);
+//
+//        meeting.addParticipant(participant);
+//        Transaction transaction = session.beginTransaction();
+//        session.save(meeting);
+//        transaction.commit();
+    }
+
+    public void removeParticipant(long id, Participant participant) {
+        Meeting meeting = this.findByID(id);
+        meeting.removeParticipant(participant);
+        Transaction transaction = connector.getSession().beginTransaction();
+        connector.getSession().save(meeting);
+        transaction.commit();
+
+    }
+
+    public Collection<Participant> getParticipants(long id) {
+        String hql = "SELECT a.login FROM Meeting m JOIN m.participants a WHERE upper(m.id) = upper(:id)";
+        Query query = session.createQuery(hql);
+        query.setLong("id", id);
+        return query.list();
     }
 
 
