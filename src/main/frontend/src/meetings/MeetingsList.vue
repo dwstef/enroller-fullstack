@@ -11,13 +11,13 @@
     </thead>
     <tbody>
     <tr v-for="meeting in meetings" :key="meeting.name">
-      <td>{{ meeting.title }}</td>
+      <td>{{ meeting.name }}</td>
       <td>{{ meeting.description }}</td>
       <td>{{ meeting.date }}</td>
       <td>
         <ul v-if="meeting.participants">
           <li v-for="participant in meeting.participants" :key="participant">
-            {{ username }}
+            {{ participant }}
           </li>
         </ul>
       </td>
@@ -38,6 +38,6 @@
 
 <script>
     export default {
-        props: ['meetings', 'username']
+        props: ['meetings', 'username'],
     }
 </script>

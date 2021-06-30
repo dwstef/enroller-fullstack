@@ -54,15 +54,6 @@ public class MeetingService {
         connector.getSession().save(meeting);
         transaction.commit();
 
-
-//        Meeting meeting = this.findByID(id);
-//        Participant participant = (Participant) DatabaseConnector.getInstance().getSession().get(Participant.class,
-//                login);
-//
-//        meeting.addParticipant(participant);
-//        Transaction transaction = session.beginTransaction();
-//        session.save(meeting);
-//        transaction.commit();
     }
 
     public void removeParticipant(long id, Participant participant) {
@@ -73,13 +64,5 @@ public class MeetingService {
         transaction.commit();
 
     }
-
-    public Collection<Participant> getParticipants(long id) {
-        String hql = "SELECT a.login FROM Meeting m JOIN m.participants a WHERE upper(m.id) = upper(:id)";
-        Query query = session.createQuery(hql);
-        query.setLong("id", id);
-        return query.list();
-    }
-
 
 }

@@ -41,10 +41,21 @@
                      });
             },
             addMeetingParticipant(meeting) {
-                meeting.participants.push(this.username);
+                this.$http.post('meetings/'+meeting.id+'/participants/'+this.username)
+                     .then(response => {
+                        meeting.participants.push(this.username);
+                     })
+                     .catch(response => {
+                     });
+
             },
             removeMeetingParticipant(meeting) {
-                meeting.participants.splice(meeting.participants.indexOf(this.username), 1);
+                this.$http.delete('meetings/'+meeting.id+'/participants/'+this.username)
+                     .then(response => {
+                         meeting.participants.splice(meeting.participants.indexOf(this.username), 1);
+                     })
+                     .catch(response => {
+                     });
             },
             deleteMeeting(meeting) {
                 this.$http.delete('meetings/'+ meeting.id)
@@ -57,13 +68,15 @@
             }
                     },
             mounted() {
-                  this.$http.get('meetings')
-                         .then(response=>{
-                            this.meetings = response.body
-                             console.log(response.body)
-                         })
-                         .catch(response => {
-                         });
+            this.$http.get('meetings')
+                    .then((response) => {
+                       for(let meeting of response.body) {
+                            this.$http.get(`meetings/${meeting.id}/participants`).then((r) => {return r.body.map(obj => obj.login);})
+                            .then((participants) => {
+                       		        this.meetings.push({id: meeting.id, name: meeting.name, description: meeting.description, participants: participants});
+                                     })
+                             }
+                        });
             }
     }
 </script>

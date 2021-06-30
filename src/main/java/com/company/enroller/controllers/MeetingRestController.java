@@ -95,10 +95,7 @@ public class MeetingRestController {
         if (meeting == null) {
             return new ResponseEntity<>("Meeting does not exist", HttpStatus.NOT_FOUND);
         }
-        if (meeting.getParticipants().isEmpty()) {
-            return new ResponseEntity<>("Participant list is empty at the moment", HttpStatus.NOT_FOUND);
-        }
-        Collection<Participant> participants = meetingService.getParticipants(id);
+        Collection<Participant> participants = meeting.getParticipants();
         return new ResponseEntity<Collection<Participant>>(participants, HttpStatus.OK);
 
     }
